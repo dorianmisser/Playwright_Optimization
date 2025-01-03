@@ -1,0 +1,31 @@
+{
+  "name": "playwright-bdd-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run clear-allure-results && npm run bddgen && npm run playwright-test && npm run show-report",
+    "bddgen": "npx bddgen",
+    "show-report": "npx allure generate allure-results --clean -o allure-report && npx allure open allure-report",
+    "clean": "rmdir /S /Q .features-gen",
+    "playwright-test": "npx playwright test",
+    "clear-allure-results": "rmdir /S /Q allure-results"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.0.1",
+    "@faker-js/faker": "^9.2.0",
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.9.0",
+    "allure-playwright": "^3.0.7",
+    "playwright-bdd": "^7.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "cucumber-html-reporter": "^7.2.0",
+    "faker-ts": "^0.0.2"
+  }
+}
