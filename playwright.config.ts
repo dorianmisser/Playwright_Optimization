@@ -52,7 +52,8 @@ export default defineConfig({
     {
       name: 'Test sur Chrome',
       testDir,
-      use: { ...devices['Desktop Chrome'], channel: 'chromium',
+      use: { ...devices['Desktop Chrome'],
+        channel: 'chromium',
         browserName: 'chromium', 
         headless:true,
         deviceScaleFactor: undefined,
@@ -83,7 +84,7 @@ export default defineConfig({
 
     {
       name: 'Test sur Edge',
-      use: { ...devices['Microsoft Edge'],
+      use: { ...devices['Microsoft Edge'], 
         browserName: 'chromium',
         channel: 'msedge',
         headless:true,
@@ -92,8 +93,8 @@ export default defineConfig({
         launchOptions: {
           args:[
             '--start-maximized',
-            `--disable-extensions-except=${pathToExtensionChromium}`,
-            `--load-extension=${pathToExtensionChromium}`,
+            // `--disable-extensions-except=${pathToExtensionChromium}`,
+            // `--load-extension=${pathToExtensionChromium}`,
           ]
         }
       },

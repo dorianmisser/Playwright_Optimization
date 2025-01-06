@@ -48,12 +48,6 @@ export const test = base.extend<{
       await use(context);
     }
 
-    else if (browserName === 'webkit') {
-      const context = await webkit.launchPersistentContext("");
-      context.addCookies(cookies);
-      await use(context);
-    }
-
   } catch (error) {
     throw new Error(`Erreur lors du lancement du browser ${browserName} : ${error.message}`);
   }
