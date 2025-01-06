@@ -82,23 +82,23 @@ export default defineConfig({
       },
     },
 
-    {
-      // name: 'Test sur Edge',
-      // use: { ...devices['Microsoft Edge'], 
-      //   browserName: 'chromium',
-      //   channel: 'msedge',
-      //   headless:true,
-      //   deviceScaleFactor: undefined,
-      //   viewport:null,
-      //   launchOptions: {
-      //     args:[
-      //       '--start-maximized',
-      //       `--disable-extensions-except=${pathToExtensionChromium}`,
-      //       `--load-extension=${pathToExtensionChromium}`,
-      //     ]
-      //   }
-      // },
-    },
+    /* {
+        name: 'Test sur Edge',
+        use: { ...devices['Microsoft Edge'], 
+          browserName: 'chromium',
+          channel: 'msedge',
+         headless:true,
+         deviceScaleFactor: undefined,
+         viewport:null,
+         launchOptions: {
+           args:[
+             '--start-maximized',
+             `--disable-extensions-except=${pathToExtensionChromium}`,
+             `--load-extension=${pathToExtensionChromium}`,
+           ]
+         }
+       },
+     }, */
 
     /* Test against mobile viewports. */
     // {
