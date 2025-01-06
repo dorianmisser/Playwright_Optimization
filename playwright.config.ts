@@ -3,7 +3,8 @@ import path from 'path';
 import { defineBddConfig} from 'playwright-bdd';
 
 const pathToExtensionChromium = path.join(`C:/Users/Dorian Misser/Documents/Applications/uBlock/uBlockChromium`, 'uBlock');
-const pathToExtensionFirefox = `C:/Users/Dorian Misser/Documents/Applications/uBlock/uBlockFirefox`;
+const pathToExtensionFirefox = "C:/Users/Dorian Misser/Documents/Applications/adblock/adblockplus-firefox-4.10.0-mv2.xpi"; 
+const pathToFirefoxDriver = "C:/Users/Dorian Misser/AppData/Local/ms-playwright/firefox-1466/firefox/firefox.exe";
 
 /**
  * Read environment variables from file.
@@ -22,6 +23,7 @@ const testDir = defineBddConfig({
   steps: [`src/steps/**`, `src/fixtures/fixtures.ts`],
 });
 
+
 export default defineConfig({ 
   testDir,
   /* Run tests in files in parallel */
@@ -31,7 +33,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 0 : 0,
   /* Opt out of parallel tests on CI. */
-  workers:  1,
+  workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"], 
@@ -40,22 +42,18 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 60000,
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     baseURL:"https://www.automationexercise.com",
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     headless: false,
-    viewport:{height:1280,width:720},
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
+      name: 'Test sur Chrome',
+      testDir,
+      use: { ...devices['Desktop Chrome'], channel: 'chromium',
         browserName: 'chromium', 
         headless:true,
         deviceScaleFactor: undefined,
@@ -72,27 +70,24 @@ export default defineConfig({
     
 
     {
-      name: 'firefox',
+      name: 'Test sur Firefox',
       use: { ...devices['Desktop Firefox'],
+        channel: 'firefox',
         browserName: 'firefox', 
-        headless:false,
+        headless:true,
         deviceScaleFactor: undefined,
-        viewport:null,
+        viewport:{height:1080, width:1920},
         launchOptions: {
-          args:[
-            '--start-maximized',
-            `--install-extension ${pathToExtensionFirefox}`,
-          ]
         }
       },
     },
 
     {
-      name: 'edge',
+      name: 'Test sur Edge',
       use: { ...devices['Microsoft Edge'],
         browserName: 'chromium',
         channel: 'msedge',
-        headless:false,
+        headless:true,
         deviceScaleFactor: undefined,
         viewport:null,
         launchOptions: {
@@ -115,15 +110,6 @@ export default defineConfig({
     //   use: { ...devices['iPhone 12'] },
     // },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
 

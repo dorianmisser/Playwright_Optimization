@@ -3,9 +3,8 @@ import { test } from "../../../src/fixtures/fixtures.ts";
 
 test.describe("Création Compte client", () => {
 
-  test("Création d'un compte client", { tag: ["@browser"] }, async ({ Given, commonPage, homePage, And, When, loginPage, userCreationPage, Then, context }) => {
+  test("Création d'un compte client", { tag: ["@browser"] }, async ({ Given, homePage, And, When, loginPage, userCreationPage, Then, context }) => {
     await Given("je me rends sur la page de connexion", null, { homePage });
-    await commonPage.pauseTest();
     await And("je génère des informations clients randoms");
     await When("je rempli le pré-formulaire de création avec des identifiants nouveaux", null, { loginPage });
     await When("je rempli le formulaire de création", null, { userCreationPage });

@@ -10,7 +10,7 @@
             "request": "launch",
             "runtimeArgs": [
                 "cd C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization",
-                "node run-test.js"
+                "npm run test"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [
