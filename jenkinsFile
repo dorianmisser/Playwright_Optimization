@@ -20,12 +20,12 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh 'npx playwright install --with-deps' // Installe les navigateurs
-                sh 'npx playwright test' // Exécute les tests
+                sh 'npm run test' // Exécute les tests
             }
         }
         stage('Generate Report') {
             steps {
-                sh 'npx playwright show-report' // Génère un rapport HTML
+                sh 'npm run show-report' // Génère un rapport HTML
             }
         }
     }

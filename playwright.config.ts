@@ -45,7 +45,6 @@ export default defineConfig({
     baseURL:"https://www.automationexercise.com",
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    headless: false,
   },
 
   /* Configure projects for major browsers */

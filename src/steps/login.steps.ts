@@ -14,7 +14,6 @@ import { test, Given, When, Then } from "../fixtures/fixtures";
     await loginPage.verifySignInErrorMessage("Your email or password is incorrect!");
     });
   
-  
   When('je me connecte à mon compte', async ({loginPage}) => {
     await loginPage.verifyPresenceOnLoginPage();
     await loginPage.fillEmailSignIn();
