@@ -14,18 +14,18 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                powershel 'npm ci' // Installe les dépendances via package-lock.json
+                sh 'npm ci' // Installe les dépendances via package-lock.json
             }
         }
         stage('Run Tests') {
             steps {
-                powershell 'npx playwright install --with-deps' // Installe les navigateurs
-                powershell 'npx playwright test' // Exécute les tests
+                sh 'npx playwright install --with-deps' // Installe les navigateurs
+                sh 'npx playwright test' // Exécute les tests
             }
         }
         stage('Generate Report') {
             steps {
-                powershell 'npx playwright show-report' // Génère un rapport HTML
+                sh 'npx playwright show-report' // Génère un rapport HTML
             }
         }
     }
