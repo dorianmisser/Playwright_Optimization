@@ -5,8 +5,8 @@ import { PathOrFileDescriptor, readFileSync, writeFileSync } from 'node:fs';
 
 export class CommonPage {
     readonly page: Page;
-    readonly locator:Locator;
     readonly context:BrowserContext;
+    readonly locator:Locator;
     readonly footer_locator:Locator;
     readonly header_locator: Locator;
     readonly scrollUpArrow_btn: Locator;
@@ -69,7 +69,6 @@ export class CommonPage {
 
 // gestion des pop-up chromium
     async dialogAccept() {
-
         this.page.on('dialog', async dialog => {
             if (dialog.type() === 'confirm')
             dialog.accept();
@@ -141,7 +140,7 @@ export class CommonPage {
     async getContextCookies() {
         const cookies = JSON.stringify(await this.context.cookies());
         return cookies
-        }
+    }
 
     async verifyDownloadFilePresence() {
         const contentFile = readFileSync(`C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization/src/data`);

@@ -105,5 +105,4 @@ export class LoginPage {
   async verifySignUpErrorMessage(msgExpected:string) {
     await expect(this.signUp_incorrectMailPasswordErrorMessage).toHaveText(msgExpected)
   }
-
 }

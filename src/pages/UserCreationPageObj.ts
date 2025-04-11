@@ -32,7 +32,7 @@ export class UserCreationPage {
   readonly page_title: Locator;
   readonly company_input: Locator;
 
-  constructor(page:Page, context:BrowserContext) {
+  constructor(page:Page, context: BrowserContext) {
     this.page = page;
     this.commonPage = new CommonPage(page, context);
     this.page_title = page.locator(`//div/h2[@class="title text-center"]/b`);

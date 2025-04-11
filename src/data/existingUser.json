@@ -1,0 +1,19 @@
+{
+    "title" : "Mr.",
+    "firstName" : "dodo",
+    "lastName" : "test",
+    "name" : "dodo.test",
+    "password" : "password",
+    "email" : "dodo.test@yopmail.com",
+    "dayOfBirth" : "29",
+    "monthOfBirth" : "1",
+    "yearOfBirth" : "1993",
+    "company" : "dodo SARL",
+    "address1" : "rue de l'avenir",
+    "address2" : "Bat. 1",
+    "country" : "United States",
+    "state" : "Massachusetts",
+    "city" : "Petraboro",
+    "zipCode" : "57304-6737",
+    "mobileNumber" : "(662) 777-3842 x24023"
+    }

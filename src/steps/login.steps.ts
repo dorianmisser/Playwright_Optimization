@@ -1,10 +1,9 @@
 import { test, Given, When, Then } from "../fixtures/fixtures";
 
- 
   When('je saisis des informations de connexion incorrectes', async ({loginPage}) => {
     // saisie d'informations incorrectes
     await loginPage.verifyPresenceOnLoginPage();
-    await loginPage.fillKOEmailSignIn();  
+    await loginPage.fillKOEmailSignIn();
     await loginPage.fillKOPasswordSignIn();
     await loginPage.clickOnLoginBtn();
   });

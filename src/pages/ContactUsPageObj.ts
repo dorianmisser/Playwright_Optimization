@@ -3,7 +3,6 @@ import { CommonPage } from "./CommonPageObj";
 import { faker } from "@faker-js/faker/locale/fr";
 
 export class ContactUsPage {
-  readonly page: Page;
   readonly commonPage:CommonPage;
   readonly contactUs_menubtn:Locator;
   readonly name_input:Locator;
@@ -17,7 +16,6 @@ export class ContactUsPage {
 
 
   constructor(page:Page, context:BrowserContext) {
-    this.page=page;
     this.commonPage = new CommonPage(page, context);
     this.contactUs_menubtn = page.locator(`//a[@href="/contact_us"]`);
     this.name_input = page.locator(`//input[@name="name"]`);
@@ -28,8 +26,6 @@ export class ContactUsPage {
     this.submit_btn=page.locator(`//input[@name="submit"]`);
     this.submit_message = page.locator(`//div[@class="status alert alert-success"]`);
     this.home_btn = page.locator(`//div[@id="form-section"]/a`);
-
-
   }
     async verifyPresenceOnContactUsPage() {
       await this.commonPage.verifyActivePage(this.contactUs_menubtn);

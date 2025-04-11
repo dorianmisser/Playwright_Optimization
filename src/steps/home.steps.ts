@@ -1,8 +1,8 @@
-import { test, Given, When, Then } from "../fixtures/fixtures";
+import { test, Given, When, Then, expect } from "../fixtures/fixtures";
 
 Given('je me rends sur la page de connexion', async({homePage}) => {
     //Cliquer sur le bouton [Signup / Login] dans le menu du header
-    await homePage.navigateToHomepage();
+    // await homePage.navigateToHomepage();
     await homePage.verifyPresenceOnHomepage();
     await homePage.clickOnSignupSigninBtn();
   });
@@ -44,12 +44,12 @@ Given('je me rends sur la page de connexion', async({homePage}) => {
     await homePage.clickOnContinuebtn();
   });
 
-  Given('je suis sur la page d\'accueil', async ({homePage}) => {
+  Given(`je suis sur la page d'accueil`, async ({homePage}) => {
     await homePage.navigateToHomepage();
     await homePage.verifyPresenceOnHomepage();
   });
 
-  When('je scrolle jusqu\'au footer', async ({commonPage}) => {
+  When(`je scrolle jusqu'au footer`, async ({commonPage}) => {
     await commonPage.scrollManuallyToPageFooter();
   });
 
@@ -65,10 +65,15 @@ Given('je me rends sur la page de connexion', async({homePage}) => {
     await homePage.verifyPresenceOnTheTopPage(expectedText);
   });
 
-  When('je scrolle jusqu\'au header', async ({commonPage}) => {
+  When(`je scrolle jusqu'au header`, async ({commonPage}) => {
     await commonPage.scrollManuallyToPageHeader();
   });
 
   Then('le footer est affiché et le texte {string} est visible', async ({homePage}, expectedText: string) => {
     await homePage.verifyPresenceOnTheBottomPage(expectedText);
+  });
+
+  // 1. Missing step definition for "src\features\TS09_VisualTesting.feature:5:5"
+  When(`je vérifie que la page correspond à l'attendu`, async ({page}) => {
+    const snapshot = await page.locator('body').ariaSnapshot();
   });

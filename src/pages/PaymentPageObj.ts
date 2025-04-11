@@ -22,9 +22,8 @@ export class PaymentPage {
     readonly continue_btn : Locator;
 
 
-    constructor(page:Page, context: BrowserContext) {
+    constructor(page:Page, context:BrowserContext) {
         this.page = page;
-        this.context = context;
         this.commonPage = new CommonPage(page, context);
         this.page_title = page.locator(`//h2[@class="heading"]`);
         this.nameOnCard_field = page.locator(`//input[@name="name_on_card"]`);

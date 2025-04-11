@@ -54,8 +54,9 @@ export default defineConfig({
       testDir,
       use: { ...devices['Desktop Chrome'],
         channel: 'chromium',
+        baseURL: 'https://www.automationexercise.com',
         browserName: 'chromium', 
-        headless:true,
+        headless:false,
         deviceScaleFactor: undefined,
         viewport:null,
         launchOptions: {
@@ -69,18 +70,18 @@ export default defineConfig({
     },
     
 
-    {
-      name: 'Test sur Firefox',
-      use: { ...devices['Desktop Firefox'],
-        channel: 'firefox',
-        browserName: 'firefox', 
-        headless:true,
-        deviceScaleFactor: undefined,
-        viewport:{height:1080, width:1920},
-        launchOptions: {
-        }
-      },
-    },
+    // {
+    //   name: 'Test sur Firefox',
+    //   use: { ...devices['Desktop Firefox'],
+    //     channel: 'firefox',
+    //     browserName: 'firefox', 
+    //     headless:true,
+    //     deviceScaleFactor: undefined,
+    //     viewport:{height:1080, width:1920},
+    //     launchOptions: {
+    //     }
+    //   },
+    // },
 
     /* {
         name: 'Test sur Edge',
@@ -103,7 +104,9 @@ export default defineConfig({
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
+    //   use: { 
+    //     ...devices['Pixel 5'],
+    //   },
     // },
     // {
     //   name: 'Mobile Safari',

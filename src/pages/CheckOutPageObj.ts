@@ -114,8 +114,8 @@ export class CheckOutPage{
             `${user.city} ${user.state} ${user.zipCode}`,
             `${user.country}`,
             `${user.mobileNumber}`
-    ];
-    await this.commonPage.verifyTextElements(this.deliveryAddressAllDetails, deliveryDetailsExpected);
+            ];
+        await this.commonPage.verifyTextElements(this.deliveryAddressAllDetails, deliveryDetailsExpected);
     };
     
     async verifyBillingAdressDetails() {
@@ -129,7 +129,7 @@ export class CheckOutPage{
             `${user.city} ${user.state} ${user.zipCode}`,
             `${user.country}`,
             `${user.mobileNumber}`
-        ];
+            ];
         await expect.soft(this.billingAddressAllDetails).toHaveText(billingDetailsExpected);
     };
 

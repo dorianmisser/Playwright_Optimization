@@ -25,7 +25,7 @@ export class ProductPage {
   readonly viewCart_menubtn: Locator;
   
   
-  constructor(page:Page, context:BrowserContext) {
+  constructor(page:Page,context:BrowserContext) {
     this.page = page;
     this.commonPage = new CommonPage(page, context);
     this.productPage_url = `https://www.automationexercise.com/products`;

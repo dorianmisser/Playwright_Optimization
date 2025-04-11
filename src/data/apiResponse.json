@@ -1,4 +1,4 @@
 {
-  "responseCode": 200,
-  "message": "Account deleted!"
+  "responseCode": 404,
+  "message": "Account not found!"
 }

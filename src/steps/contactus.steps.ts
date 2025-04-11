@@ -1,4 +1,4 @@
-import { test, Given, When, Then } from "../fixtures/fixtures";
+import { When, Then } from "../fixtures/fixtures";
 
 When('je rempli le formulaire de contact', async ({homePage, contactUsPage}) => {
   await homePage.clickOnContactUsBtn();

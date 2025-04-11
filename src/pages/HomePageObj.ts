@@ -24,7 +24,7 @@ export class HomePage {
 
   constructor(page:Page, context:BrowserContext) {
     this.page = page;
-    this.commonPage = new CommonPage(page,context);
+    this.commonPage = new CommonPage(page, context);
     this.homePage_url = `https://www.automationexercise.com`
     this.signupLogin_menubtn = page.locator(`//a[@href='/login']`);
     this.products_menubtn = page.locator(`//a[@href='/products']`);

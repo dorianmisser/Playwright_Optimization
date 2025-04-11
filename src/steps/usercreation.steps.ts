@@ -1,6 +1,6 @@
 import { test, Given, When, Then } from "../fixtures/fixtures";
 
-When('je rempli le pré-formulaire de création avec des identifiants existants', async ({loginPage}) => {
+When('je rempli le pré-formulaire de création avec des identifiants existants', async ({loginPage, randomUser}) => {
   await loginPage.verifyPresenceOnLoginPage();
   // Remplissage des champs "name" et "email" avec des identifiants d'un compte déjà crée 
   await loginPage.fillNameSignUp();
@@ -34,4 +34,4 @@ Then('un compte client est créé', async ({userCreationPage, homePage}) => {
   await userCreationPage.clickOnContinueButton();
   await homePage.verifyPresenceOnHomepage();
   await homePage.verifyCreatedAccountConnexion();
-    });
+});

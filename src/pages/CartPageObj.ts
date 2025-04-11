@@ -3,7 +3,6 @@ import { CommonPage} from "./CommonPageObj";
 
 
 export class CartPage {
-
   readonly page: Page;
   readonly commonPage:CommonPage;
   readonly cartEmptyMessage: Locator;
@@ -14,7 +13,7 @@ export class CartPage {
   readonly registerLogin_btn:Locator;
   readonly proceedToCheckout_btn: Locator;
 
-constructor(page:Page, context:BrowserContext) {
+constructor(page:Page, context: BrowserContext) {
   this.page = page;
   this.commonPage = new CommonPage(page, context);
   this.cartEmptyMessage = page.locator(`//p[@class="text-center"]/b`);
@@ -26,7 +25,7 @@ constructor(page:Page, context:BrowserContext) {
   this.registerLogin_btn = page.locator(`//a[@href="/login"]/u`);
 }
   async verifyPresenceOnCartPage() {
-  await this.commonPage.verifyActivePage(this.cart_menubtn);
+    await this.commonPage.verifyActivePage(this.cart_menubtn);
   }
 
   async verifyCartContent(numberExpected:number) {
