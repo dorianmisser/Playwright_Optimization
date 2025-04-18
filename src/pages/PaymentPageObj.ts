@@ -1,6 +1,6 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
-import { returnCreditCard, returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 import { readFileSync } from "fs";
 
 export class PaymentPage {
@@ -43,8 +43,8 @@ export class PaymentPage {
     };
 
 
-    async fillCreditCardForm() {
-        const userCreditCard = await returnCreditCard();
+    async fillCreditCardForm(dataSet: string) {
+        const userCreditCard = await returnFileContent(`${dataSet}.json`);
         await this.nameOnCard_field.fill(userCreditCard.nameOnCard);
         await this.cardNumber_field.fill(userCreditCard.cardNumber);
         await this.cardCvc_field.fill(userCreditCard.cvcNumber);
@@ -71,10 +71,10 @@ export class PaymentPage {
         await download.saveAs('src/data/fileDownloaded/invoice.txt');
     };
 
-    async verifyFileDownloaded() {
-        const user = await returnUser()
-        const fileContent = await (readFileSync('src/data/fileDownloaded/invoice.txt')).toString();
-        await expect.soft(fileContent).toBe(`Hi ${user.firstName} ${user.lastName}, Your total purchase amount is 500. Thank you`)
+    async verifyFileDownloaded(dataSet: string) {
+        const user = await returnFileContent(`${dataSet}.json`);
+        const fileContent = (readFileSync('src/data/fileDownloaded/invoice.txt')).toString();
+        expect.soft(fileContent).toBe(`Hi ${user.firstName} ${user.lastName}, Your total purchase amount is 500. Thank you`);
     }
 
     async clickOnContinueBtn() {

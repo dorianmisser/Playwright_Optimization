@@ -28,10 +28,10 @@ export class ProductPage {
   constructor(page:Page,context:BrowserContext) {
     this.page = page;
     this.commonPage = new CommonPage(page, context);
-    this.productPage_url = `https://www.automationexercise.com/products`;
+    this.productPage_url = `/products`;
     this.products_menubtn = page.locator(`//a[@href="/products"]`);
     this.research_field = page.locator("#search_product");
-    this.submit_btn = page.locator("#submit_search");
+    this.submit_btn = page.locator(`//button[@id='submit_search']`);
     this.viewCart_menubtn = page.locator(`//li//a[@href="/view_cart"]`);
     this.viewCart_btn = page.locator(`//div[@class="modal-content"]//a[@href='/view_cart']`);
     this.products = page.locator("div.single-products");
@@ -52,7 +52,6 @@ export class ProductPage {
 
   async verifyPresenceOnProductPage() {
     await this.commonPage.verifyActivePage(this.products_menubtn);
-
   }
 
   async researchItem(itemResearched:string) {

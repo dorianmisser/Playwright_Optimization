@@ -1,6 +1,6 @@
 import { BrowserContext, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
-import { returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 export class HomePage {
   readonly page: Page;
   readonly context: BrowserContext;
@@ -43,7 +43,7 @@ export class HomePage {
   }
 
   async navigateToHomepage() {
-    await this.commonPage.navigateToUrl(this.homePage_url)
+    await this.commonPage.navigateToUrl("")
   }
 
   async verifyPresenceOnHomepage() {
@@ -76,14 +76,8 @@ export class HomePage {
     await this.commonPage.verifyTextContain(this.page_title.first(),`Contact Us`);
   }
 
-  async verifyCreatedAccountConnexion() {
-    await this.commonPage.elementIsVisible(this.logged_btn);
-    const user = await returnUser();
-    await this.commonPage.verifyTextIsCorrect(this.logged_btn,`Logged in as ${user.name}`);
-  }
-
-  async verifyAccountConnexion() {
-    const user = await returnUser();
+  async verifyAccountConnexion(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}.json`);
     await this.commonPage.elementIsVisible(this.logged_btn);
     await this.commonPage.verifyTextIsCorrect(this.logged_btn, `Logged in as ${user.name}`);
   }

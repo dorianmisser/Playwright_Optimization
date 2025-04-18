@@ -1,7 +1,7 @@
 import { BrowserContext, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
 import { faker } from "@faker-js/faker/locale/fr";
-import { returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 
 export class ProductDetailsPage {
   readonly page:Page;
@@ -70,12 +70,12 @@ export class ProductDetailsPage {
   }
 
   async fillNameInput() {
-    const user = await returnUser();
+    const user = await returnFileContent(`randomUser.json`);
     await this.name_input.fill(user.name);
   }
 
   async fillEmailInput() {
-    const user = await returnUser();
+    const user = await returnFileContent(`randomUser.json`);
     await this.email_input.fill(user.email);
   }
 

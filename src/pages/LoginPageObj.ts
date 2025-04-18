@@ -1,6 +1,6 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
-import { returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 
 
 export class LoginPage {
@@ -38,7 +38,7 @@ export class LoginPage {
   }
 
   async navigateToLoginPage() {
-    await this.page.goto(`https://automationexercise.com/login`);
+    await this.page.goto(`/login`);
   }
 
   async verifyPresenceOnLoginPage() {
@@ -50,13 +50,13 @@ export class LoginPage {
     await this.commonPage.deleteElement(this.googleAdsElements);
   }
 
-  async fillNameSignUp() {
-    const user = await returnUser();
+  async fillNameSignUp(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}.json`);
     await this.signUpName_field.fill(user.name);
   }
 
-  async fillEmailSignUp() {
-    const user = await returnUser();
+  async fillEmailSignUp(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}.json`);
     await this.signUpEmail_field.fill(user.email);
   }
 
@@ -64,33 +64,13 @@ export class LoginPage {
     await this.signUp_btn.click();
   }
 
-  async fillEmailSignIn() {
-    const user = await returnUser()
+  async fillEmailSignIn(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}.json`);
     await this.signInEmail_field.fill(`${user.email}`);
   }
 
-  async fillPasswordSignIn() {
-    const user = await returnUser()
-    await this.signInPassword_field.fill(`${user.password}`);
-  }
-
-  async fillRandomEmailSignIn() {
-    const user = await returnUser();
-    await this.signInEmail_field.fill(user.email);
-  }
-
-  async fillRandomPasswordSignIn() {
-    const user = await returnUser();
-    await this.signInPassword_field.fill(user.password);
-  }
-
-  async fillKOEmailSignIn() {
-    const user = await returnUser();
-    await this.signInEmail_field.fill(`${user.email}KO`);
-  }
-
-  async fillKOPasswordSignIn() {
-    const user = await returnUser();
+  async fillPasswordSignIn(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}.json`);
     await this.signInPassword_field.fill(`${user.password}`);
   }
 

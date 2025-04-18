@@ -1,1 +1,1 @@
-export * from '../fixtures/fixtures'
+export * from './web.fixtures'

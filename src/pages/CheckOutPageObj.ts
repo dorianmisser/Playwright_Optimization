@@ -1,6 +1,6 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
-import { returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 import { faker } from "@faker-js/faker/locale/fr";
 
 
@@ -85,26 +85,26 @@ export class CheckOutPage{
         this.commentary_textarea = page.locator(`//textarea[@class="form-control"]`);
 
         this.placeOrder_btn = page.locator(`//a[@href="/payment"]`);
-    }
+    };
 
     async verifyPresenceOnCheckoutPage() {
         await this.commonPage.verifyTextIsCorrect(this.page_breadcrumb,`Checkout`)
-    }
+    };
 
     async verifyPresenceOfDeliveryBox() {
         await this.commonPage.elementIsVisible(this.deliveryAddressDetails_box);
-    }
+    };
 
     async verifyPresenceOfBillingBox() {
         await this.commonPage.elementIsVisible(this.billingAdressDetails_box);
-    }
+    };
 
     async logAddressDetails() {
         const address_details = await this.deliveryAddressAllDetails.allInnerTexts();
     };
 
     async verifyDeliveryAdressDetails() {
-        const user = await returnUser();
+        const user = await returnFileContent(`existingUser.json`);
         const deliveryDetailsExpected = [
             `Your delivery address`,
             `Mr. ${user.firstName} ${user.lastName}`,
@@ -119,7 +119,7 @@ export class CheckOutPage{
     };
     
     async verifyBillingAdressDetails() {
-        const user = await returnUser();
+        const user = await returnFileContent(`existingUser.json`);
         const billingDetailsExpected = [
             `Your billing address`,
             `Mr. ${user.firstName} ${user.lastName}`,
@@ -139,18 +139,14 @@ export class CheckOutPage{
         var amount = Number((await this.totalAmount.textContent())?.replace(`Rs. `, ``));
         var amount_expected = priceText * quantity;
         expect.soft(amount).toBe(amount_expected);
-    }
+    };
 
     async fillCommentary() {
         const commentary = faker.lorem.lines(10);
         this.commentary_textarea.fill(commentary);
-    }
+    };
 
     async clickOnPlaceOrderBtn() {
         this.placeOrder_btn.click();
-    }
-
-
-
-
+    };
 }

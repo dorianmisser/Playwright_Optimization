@@ -1,6 +1,6 @@
-import { APIRequestContext, APIResponse, expect } from '@playwright/test';
-import { readFileSync, writeFileSync } from 'fs';
-import { createRandomUser, returnUser } from '../fixtures/randomizer';
+import { APIRequestContext, APIResponse, BrowserContext, expect, Page } from '@playwright/test';
+import { writeFileSync } from 'fs';
+import { createRandomUser, returnFileContent } from '../fixtures/randomizer';
 
 export class ApiUtils {
   readonly apiContext:APIRequestContext;
@@ -37,9 +37,23 @@ export class ApiUtils {
   async makeAPICallWithParams(
     url:string,
     method: string,
+    params?: { [key: string]: string | number | boolean }
+  ) : Promise<APIResponse> {
+    var response = await this.apiContext.fetch(
+      url, 
+      {
+        method,
+        params,
+      }).then(response => response.json());
+      return response;
+  }
+
+  async makeAPICallWithFormBody(
+    url:string,
+    method: string,
     form?: { [key: string]: string | number | boolean }
   ) : Promise<APIResponse> {
-    const response = await this.apiContext.fetch(
+    var response = await this.apiContext.fetch(
       url, 
       {
         method,
@@ -91,7 +105,6 @@ export class ApiUtils {
     if (actualValue === undefined) {
       throw new Error(`La clé ${key} n'existe pas dans la réponse.`);
     }
-
     expect(actualValue).toBe(expectedValue);
   }
 
@@ -103,16 +116,14 @@ export class ApiUtils {
   async verifyResponseText(response, expectedResponseText: string) {
     const responseText = await response.message;
     expect(responseText).toBe(expectedResponseText);
-
   }
 
   async createAPIResponseJsonFile(response:APIResponse) {
-  
     writeFileSync(
       `C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization/src/data/apiResponse.json`,
-      JSON.stringify(response,null, 2), 
+      JSON.stringify(response,null, 2),
       'utf-8'
-  );
+    );
   }
 
   /**
@@ -121,7 +132,6 @@ export class ApiUtils {
    * @param expectedContent - Un objet contenant les clés et valeurs attendues.
    */
     async verifyResponseContents(response, expectedContent: Record<string, unknown>): Promise<void> {
-
       for (const [key, expectedValue] of Object.entries(expectedContent)) {
         const actualValue = response[key];
         if (actualValue === undefined) {
@@ -156,37 +166,35 @@ async makeAPICallWithSearchParam(
   return response;
 }
 
-async verifyClientDataReturned(response) {
-
+async verifyClientDataReturned(response, dataSetToCompare:string) {
   try {
-    const user = await returnUser();
+    const user = await returnFileContent(`${dataSetToCompare}.json`);
     const clientData = await response.user;
-  
-    expect.soft(clientData.name).toEqual(`${user.name}updated`);
+    expect.soft(clientData.name).toEqual(`${user.name}`);
     expect.soft(clientData.email).toEqual(`${user.email}`);
     expect.soft(clientData.title).toEqual(`${user.title}`);
     expect.soft(clientData.birth_day).toEqual(`${user.dayOfBirth}`);
     expect.soft(clientData.birth_month).toEqual(`${user.monthOfBirth}`);
     expect.soft(clientData.birth_year).toEqual(`${user.yearOfBirth}`);
-    expect.soft(clientData.first_name).toEqual(`${user.firstName}updated`);
-    expect.soft(clientData.last_name).toEqual(`${user.lastName}updated`);
-    expect.soft(clientData.company).toEqual(`${user.company}updated`);
-    expect.soft(clientData.address1).toEqual(`${user.address1}updated`);
-    expect.soft(clientData.address2).toEqual(`${user.address2}updated`);
+    expect.soft(clientData.first_name).toEqual(`${user.firstName}`);
+    expect.soft(clientData.last_name).toEqual(`${user.lastName}`);
+    expect.soft(clientData.company).toEqual(`${user.company}`);
+    expect.soft(clientData.address1).toEqual(`${user.address1}`);
+    expect.soft(clientData.address2).toEqual(`${user.address2}`);
     expect.soft(clientData.country).toEqual(`${user.country}`);
-    expect.soft(clientData.state).toEqual(`${user.state}updated`);
-    expect.soft(clientData.city).toEqual(`${user.city}updated`);
-    expect.soft(clientData.zipcode).toEqual(`${user.zipCode}updated`);
+    expect.soft(clientData.state).toEqual(`${user.state}`);
+    expect.soft(clientData.city).toEqual(`${user.city}`);
+    expect.soft(clientData.zipcode).toEqual(`${user.zipCode}`);
   } catch(error) {
     throw new Error (`l'erreur est la suivante : ${error}`)
     }
 }
 
-  async checkIfUserExist(mail:string, pwd:string) {
+  async checkIfUserExist(mail:any, pwd:any) {
     var response = await this.apiContext.fetch(
       `https://automationexercise.com/api/verifyLogin`,
       {
-        method : `POST`, 
+        method : `POST`,
         form: {
           email: `${mail}`,
           password: `${pwd}`
@@ -194,94 +202,69 @@ async verifyClientDataReturned(response) {
       }
     ).then(response => response.json())
     if (response.responseCode === 200) {
-      console.log(`L'utilisateur est déjà crée`)
     } else {
-      console.log(`Aucun compte n'a été trouvé`)
     }
     return response
   }
 
-  async createUserByApi(
-    name:string, email: string, password : string, title : string, dayOfBirth : string,
-    monthOfBirth: string, yearOfBirth : string, firstName : string, lastName: string, company : string, 
-    address1 : string, address2 : string, country : string, zipcode : string, state : string, city : string, 
-    mobileNumber : string) {
-      const user = await returnUser();
-      const response = await this.apiContext.fetch(
-        `https://automationexercise.com/api/createAccount`,
-        {
-          method: `POST`,
-          form: {
-            name:`${name}`,
-            email:`${email}`,
-            password:`${password}`,
-            title: `${title}`,
-            birth_date:`${dayOfBirth}`,
-            birth_month:`${monthOfBirth}`,
-            birth_year:`${yearOfBirth}`,
-            firstname:`${firstName}`,
-            lastname:`${lastName}`,
-            company:`${company}`,
-            address1:`${address1}`,
-            address2:`${address2}`,
-            country:`${country}`,
-            zipcode:`${zipcode}`,
-            state:`${state}`,
-            city:`${city}`,
-            mobile_number:`${mobileNumber}`
+  async createUserByApi(dataSet:string) {
+    const user = await returnFileContent(`${dataSet}User.json`);
+    const response = await this.apiContext.fetch(
+      `https://automationexercise.com/api/createAccount`,
+      {
+        method: `POST`,
+        form: {
+          name:`${user.name}`,
+          email:`${user.email}`,
+          password:`${user.password}`,
+          title: `${user.title}`,
+          birth_date:`${user.dayOfBirth}`,
+          birth_month:`${user.monthOfBirth}`,
+          birth_year:`${user.yearOfBirth}`,
+          firstname:`${user.firstName}`,
+          lastname:`${user.lastName}`,
+          company:`${user.company}`,
+          address1:`${user.address1}`,
+          address2:`${user.address2}`,
+          country:`${user.country}`,
+          zipcode:`${user.zipcode}`,
+          state:`${user.state}`,
+          city:`${user.city}`,
+          mobile_number:`${user.mobileNumber}`
       }
-    }).then(response => response.json());
+  }).then(response => response.json());
     expect(await response.responseCode).toBe(201);
   };
 
-  async deleteUserByApi(mail:string) {
+  async deleteUserByApi(dataSet:string) {
+    var user = await returnFileContent(`${dataSet}.json`);
     var response = await this.apiContext.fetch(
       `https://automationexercise.com/api/deleteAccount`,
       {
         method:'DELETE',
         form:{
-          email:`${mail}`
+          email:`${user.email}`,
+          password:`${user.password}`
         },
       },
     )
-    response = await response.json()
+    response = await response.json();
     return response
-
   }
 
-  async deleteJddIfExists(mail:string, pwd:string) {
+  async deleteJddIfExists(mail:string, pwd :string) {
     var response = await this.checkIfUserExist(mail, pwd);
     if(response.responseCode === 200) {
-      response = await this.deleteUserByApi(`${mail}`)
+      response = await this.deleteUserByApi('randomUser')
     }
   }
 
   async createJddIfDoesntExist(mail:string, pwd:string) {
-    await createRandomUser();
     const response = await this.checkIfUserExist(`${mail}`, `${pwd}`);
     if (await response.responseCode === 404) {
-      const existingUser = await JSON.parse(readFileSync('src/data/existingUser.json', 'utf-8'))
-      await this.createUserByApi(
-        `${existingUser.name}`,
-        `${existingUser.email}`,
-        `${existingUser.password}`,
-        `${existingUser.title}`,
-        `${existingUser.dayOfBirth}`,
-        `${existingUser.monthOfBirth}`,
-        `${existingUser.yearOfBirth}`,
-        `${existingUser.firstName}`,
-        `${existingUser.lastName}`,
-        `${existingUser.company}`,
-        `${existingUser.address1}`,
-        `${existingUser.address2}`,
-        `${existingUser.country}`,
-        `${existingUser.zipCode}`,
-        `${existingUser.state}`,
-        `${existingUser.city}`,
-        `${existingUser.mobileNumber}`,
-      )
-      console.log(`L'utilisateur n'existait pas donc création d'un utilisateur`)
+      const existingUser = returnFileContent('existingUser.json');
+        await this.createUserByApi(`${existingUser}`);
     }
     return response
-    }
   }
+}

@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { Status } from "allure-js-commons"
 import path from 'path';
 import { defineBddConfig} from 'playwright-bdd';
 
@@ -19,30 +20,49 @@ const pathToFirefoxDriver = "C:/Users/Dorian Misser/AppData/Local/ms-playwright/
  */
 
 const testDir = defineBddConfig({
-  features: `./src/features/*.feature`,
-  steps: [`src/steps/**`, `src/fixtures/fixtures.ts`],
+  features: [`./src/features/apiFeatures/*.feature`,`./src/features/webFeatures/*.feature`],
+  steps: [`./src/steps/**`, `./src/fixtures/web.fixtures.ts`, `./src/fixtures/api.fixtures.ts`],
 });
 
 
 export default defineConfig({ 
   testDir,
+  outputDir: 'test-results',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 0 : 0,
+  retries: 0,
   /* Opt out of parallel tests on CI. */
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ["list"], 
-    ['allure-playwright'],
+    ['allure-playwright',
+      {
+        resultsDir: "allure-results",
+        detail:true,
+        suiteTitle: true,
+        categories : [
+          {
+          name : "foo",
+          messageRegex : "bar",
+          traceRegex : "baz",
+          matchedStatuses : [Status.FAILED, Status.BROKEN]
+          }
+
+        ]
+      }
+    ],
   ],
+  metadata: {
+  
+  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 60000,
   use: {
-    baseURL:"https://www.automationexercise.com",
+    baseURL: 'https://www.automationexercise.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -50,13 +70,14 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'Test sur Chrome',
+      name: `Test sur Chrome`,
       testDir,
+      testMatch:`.features-gen/src/features/webFeatures/**`,
       use: { ...devices['Desktop Chrome'],
         channel: 'chromium',
         baseURL: 'https://www.automationexercise.com',
         browserName: 'chromium', 
-        headless:false,
+        headless:true,
         deviceScaleFactor: undefined,
         viewport:null,
         launchOptions: {
@@ -68,6 +89,12 @@ export default defineConfig({
         }
       },
     },
+
+    {
+      name : `Tests d'Api`,
+      testMatch:`.features-gen/src/features/apiFeatures/**`,
+      testDir,
+    }
     
 
     // {

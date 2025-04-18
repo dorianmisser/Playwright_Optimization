@@ -17,7 +17,7 @@ export async function createRandomUser() {
         else {
             throw new Error (`Le genre renvoyé ${randomSex} n'est pas présent dans les options`)
         }
-        },
+    },
     firstName : faker.person.firstName(),
     lastName : faker.person.lastName(),
     name : function createName() {
@@ -66,10 +66,10 @@ writeFileSync(path.resolve(`src/data/randomUser.json`),
     return randomUser
 };
 
-export async function returnUser() {
-    const pathToFile = `C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization/src/data/randomUser.json`
-    const user = JSON.parse(readFileSync(pathToFile, 'utf-8'));
-    return user;
+export async function returnFileContent(fileName: any) {
+    const pathToFile = `C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization/src/data/${fileName}`;
+    const fileData = await JSON.parse(readFileSync(pathToFile, 'utf-8'));
+    return fileData;
   }
 
 export async function generateRandomBirthDate(minAge: number, maxAge: number) {
@@ -89,25 +89,13 @@ export async function generateRandomBirthDate(minAge: number, maxAge: number) {
   }
 
 export async function generateRandomCreditCard() {
-    const creditCardUser = await returnUser();
+    const creditCardUser = await returnFileContent(`existingUser.json`);
     const creditCard = {
-        nameOnCard : `${creditCardUser.firstName}`,
+        nameOnCard : `${creditCardUser.lastName}`,
         cardNumber : faker.finance.creditCardNumber(),
         cvcNumber : faker.finance.creditCardCVV(),
         expirationMonth : faker.date.month(),
         expirationYear : faker.date.future().getFullYear().toString()
     };
-    writeFileSync(path.resolve(`src/data/randomCreditCard.json`), JSON.stringify(creditCard));
+    writeFileSync(path.resolve(`src/data/randomCreditCard.json`), JSON.stringify(creditCard, null, 2));
 };
-
-export async function returnCreditCard() {
-    const pathToFile = `C:/Users/Dorian Misser/Documents/Workspace/Playwright_Optimization/src/data/randomCreditCard.json`;
-    const creditCard = await JSON.parse(readFileSync(pathToFile, 'utf-8'));
-    return creditCard;
-};
-
-
-
-
-
-

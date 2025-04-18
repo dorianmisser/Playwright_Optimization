@@ -10,13 +10,17 @@ export class CommonPage {
     readonly footer_locator:Locator;
     readonly header_locator: Locator;
     readonly scrollUpArrow_btn: Locator;
+    readonly autoriseCookiesFR: Locator;
+    readonly autoriseCookiesEN: Locator;
 
     constructor(page:Page, context:BrowserContext) {
         this.page = page;
         this.context = context;
         this.footer_locator = page.locator(`//footer`);
         this.header_locator = page.locator(`//header`);
-        this.scrollUpArrow_btn = page.locator(`//a[@id="scrollUp"]`)
+        this.scrollUpArrow_btn = page.locator(`//a[@id="scrollUp"]`);
+        this.autoriseCookiesFR = page.getByLabel("Autoriser");
+        this.autoriseCookiesEN = page.getByLabel("Consent");
     }
 
     async navigateToUrl(url:string) {
@@ -37,18 +41,16 @@ export class CommonPage {
     }
 
     async waitForDomContentLoaded() {
-    await this.page.waitForLoadState("domcontentloaded");
+        await this.page.waitForLoadState("domcontentloaded");
     }
 
     async acceptCookies(): Promise<void> {
     //  Gestion des cookies (en fonction de la langue)
-        const cookies_FR = await this.page.locator("//p[@class='fc-button-label' and contains(.,'Autoriser')]").isVisible();
+        const cookies_FR = await this.autoriseCookiesFR.isVisible();
         if(cookies_FR) {
-            await this.page.getByLabel("Autoriser").click();
-            await this.page.locator("//p[@class='fc-button-label' and contains(.,'Autoriser')]").click();
+            await this.autoriseCookiesFR.click();
         } else {
-         
-            await this.page.locator("//p[@class='fc-button-label' and contains(.,'Consent')]").click();
+            await this.autoriseCookiesEN.click();
         }
     }
 
@@ -113,7 +115,7 @@ export class CommonPage {
     }
 
     async expectElementToHaveAttribute(locator:Locator, AttributeName:string, AttributeValue:string) {
-        await expect(locator).toHaveAttribute(AttributeName,AttributeValue);
+        await expect(locator).toHaveAttribute(AttributeName, AttributeValue);
     }
 
     async verifyActivePage(locator:Locator) {
@@ -156,5 +158,15 @@ export class CommonPage {
     
     async clickOnScrollUpArrow() {
         await this.scrollUpArrow_btn.click();
+    }
+
+    async returnStorageState() {
+        const storageState = await this.context.storageState();
+        return storageState;
+    }
+
+    async returnCookies() {
+        const cookies = await this.context.cookies();
+        return cookies;
     }
 }

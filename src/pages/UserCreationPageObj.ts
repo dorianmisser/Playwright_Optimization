@@ -1,6 +1,6 @@
 import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 import { CommonPage } from "./CommonPageObj";
-import { returnUser } from "../fixtures/randomizer";
+import { returnFileContent } from "../fixtures/randomizer";
 
 export class UserCreationPage {
   readonly page:Page;
@@ -75,7 +75,7 @@ export class UserCreationPage {
     await this.commonPage.verifyTextIsCorrect(this.page_title, "Enter Account Information");
   }
   async verifyNameAndEmail() {
-    const user = await returnUser();
+    const user = await returnFileContent(`randomUser.json`);
     // Récupération des infos
     // Vérification des informations pré-saisies
     await expect.soft(this.name_input).toHaveValue(`${user.name}`);
@@ -83,15 +83,16 @@ export class UserCreationPage {
   }
   
   async dateSelection() {
-    const user = await returnUser();
+    const user = await returnFileContent(`randomUser.json`);
+    // Sélection de la date de naissance
     await this.dayOfBirth_dropdown.selectOption(`${user.dayOfBirth}`);
     await this.monthOfBirth_dropdown.selectOption(`${user.monthOfBirth}`);
     await this.yearOfBirth_dropdown.selectOption(`${user.yearOfBirth}`);
   }
   
-  async fillCreateAccountForm()  {
+  async fillCreateAccountForm(dataSet:string) { {
     // coche de la case en fonction du paramètre de titre
-    const user = await returnUser();
+    const user = await returnFileContent(`${dataSet}.json`);
     if (await user.title === "Mr.") {
       await this.titleMr_checkbox.check();
     } else {
@@ -113,8 +114,8 @@ export class UserCreationPage {
     await this.zipCode_input.fill(`${user.zipCode}`);
     await this.mobileNumber_input.fill(`${user.zipCode}`);
     await this.mobileNumber_input.fill(`${user.mobileNumber}`);
-
     }
+  }
     
     async validateForm() {
       await this.createAccount_btn.click();
@@ -126,7 +127,5 @@ export class UserCreationPage {
 
     async clickOnContinueButton() {
       await this.continue_btn.click();
-
     }
-
 }

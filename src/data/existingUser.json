@@ -1,5 +1,5 @@
 {
-    "title" : "Mr.",
+    "title" : "Mr",
     "firstName" : "dodo",
     "lastName" : "test",
     "name" : "dodo.test",
@@ -12,8 +12,8 @@
     "address1" : "rue de l'avenir",
     "address2" : "Bat. 1",
     "country" : "United States",
-    "state" : "Massachusetts",
-    "city" : "Petraboro",
+    "state" : "New York",
+    "city" : "New York CIty",
     "zipCode" : "57304-6737",
-    "mobileNumber" : "(662) 777-3842 x24023"
+    "mobileNumber" : "0102030405"
     }

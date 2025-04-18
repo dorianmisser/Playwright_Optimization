@@ -1,4 +1,4 @@
-import { BrowserContext, expect, Locator, Page } from "@playwright/test";
+import { BrowserContext, Locator, Page } from "@playwright/test";
 import { CommonPage} from "./CommonPageObj";
 
 
@@ -18,7 +18,7 @@ constructor(page:Page, context: BrowserContext) {
   this.commonPage = new CommonPage(page, context);
   this.cartEmptyMessage = page.locator(`//p[@class="text-center"]/b`);
   this.cartProductName = page.locator(`//a[contains(@href,"/product_details/")]`);
-  this.cart_menubtn = page.locator(`//a[@href="/view_cart"]`);
+  this.cart_menubtn = page.locator(`//li/a[@href='/view_cart']`);
   this.cartQuantity_btn = page.locator(`//button[@class="disabled"]`);
   this.productInCart_line = page.locator(`//tr[(contains(@id,"product"))]`);
   this.proceedToCheckout_btn = page.locator(`//a[@class="btn btn-default check_out"]`)
@@ -29,15 +29,12 @@ constructor(page:Page, context: BrowserContext) {
   }
 
   async verifyCartContent(numberExpected:number) {
-
     const nbProductsInCart = await this.productInCart_line.count();
     await this.commonPage.expectElementToEqual(nbProductsInCart,numberExpected);
-    // await verifyTextIsCorrect(this.cartProductName.nth(0),item_name1);
-    // await verifyTextIsCorrect(this.cartProductName.nth(1),item_name2);
   }
 
   async verifyCartQuantity(expectedQuantity:string) {
-    await this.commonPage.verifyTextIsCorrect(this.cartQuantity_btn, expectedQuantity)
+    await this.commonPage.verifyTextIsCorrect(this.cartQuantity_btn, expectedQuantity);
   }
 
   async clickOnProceedToCheckout() {
