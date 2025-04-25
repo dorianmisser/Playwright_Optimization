@@ -3,7 +3,7 @@ import { test } from "../../../../src/fixtures/api.fixtures.ts";
 
 test.describe("API Products", () => {
 
-  test("Get All Products List", { tag: ["@api", "@criticity:"] }, async ({ When, apiUtils, Then, And }) => {
+  test("Get All Products List", { tag: ["@api"] }, async ({ When, apiUtils, Then, And }) => {
     await When("un appel 'GET' vers url 'https://automationexercise.com/api/productsList'", null, { apiUtils });
     await Then("le code de la réponse est 200", null, { apiUtils });
     await And("la réponse doit contenir les informations produits souhaitées", null, { apiUtils });
@@ -20,5 +20,5 @@ test.use({
 });
 
 const bddFileMeta = {
-  "Get All Products List": {"pickleLocation":"4:5","tags":["@api","@criticity:"]},
+  "Get All Products List": {"pickleLocation":"3:5","tags":["@api"]},
 };

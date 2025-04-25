@@ -12,7 +12,6 @@ type APIFixtures = {
 
 export const test = base.extend<APIFixtures>({
   apiUtils: async ({ }, use) => {
-    await allure.owner("Dorian Misser");
     await createRandomUser();
     const apiContext = await request.newContext();
     const apiUtils = new ApiUtils(apiContext);
@@ -23,4 +22,3 @@ export const test = base.extend<APIFixtures>({
 
 export { expect } from '@playwright/test';
 export const { Given, When, Then } = createBdd(test);
-

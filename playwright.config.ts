@@ -41,6 +41,7 @@ export default defineConfig({
     ["list"], 
     ['allure-playwright',
       {
+        open : "always",
         resultsDir: "allure-results",
         detail:true,
         suiteTitle: true,
