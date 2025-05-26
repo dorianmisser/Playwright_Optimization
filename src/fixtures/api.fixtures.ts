@@ -3,7 +3,6 @@ import { request } from '@playwright/test';
 import { ApiUtils } from '../pages/ApiUtils';
 import { test as base, createBdd, cucumberReporter } from 'playwright-bdd';
 import { createRandomUser } from './randomizer';
-import * as allure from "allure-js-commons"
 
 // Typage personnalisé
 type APIFixtures = {
